@@ -20,7 +20,7 @@ nav{
     bottom: 0;
     height: 100vh;
     left:0;
-    background-color: black;
+    background-color: rgb(34, 92, 116);
     width: 280px;
     overflow: hidden;
     box-shadow: 0 20px 35px grey;

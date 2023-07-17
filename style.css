@@ -1,4 +1,4 @@
-*{
+* {
     margin: 0;
     padding: 0;
     outline: none;
@@ -8,52 +8,57 @@
     font-family: "Poppins", sans-serif;
 }
 
- body{
-    background-color: white;
+body {
+    background-color: #f1f1f1;
 }
-.container{
-    display: flex;
+
+.container {
+    display: flexbox;
 }
-nav{
+
+nav {
     position: relative;
     top: 0;
     bottom: 0;
     height: 100vh;
-    left:0;
-    background-color: rgb(34, 92, 116);
+    left: 0;
+    background-color: #245381;
     width: 280px;
     overflow: hidden;
-    box-shadow: 0 20px 35px grey;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.3);
 }
-.logo{
+
+.logo {
     text-align: center;
     display: flex;
     margin: 10px 0 0 10px;
 }
 
-.logo img{
+.logo img {
     width: 45px;
     height: 45px;
     border-radius: 50%;
 }
 
-.logo span{
+.logo span {
     font-weight: bold;
     padding-left: 15px;
     font-size: 18px;
     text-transform: uppercase;
+    color: #fff;
 }
 
-a{
+a {
     position: relative;
-    color: white;
+    color: #fff;
     font-size: 14px;
     display: table;
-    width: 280px;
+    width: 100%;
     padding: 10px;
+    transition: background-color 0.3s ease;
 }
 
-nav .fas{
+nav .fas {
     position: relative;
     width: 70px;
     height: 40px;
@@ -62,17 +67,18 @@ nav .fas{
     text-align: center;
 }
 
-.nav-item{
+.nav-item {
     position: relative;
     top: 12px;
     margin-left: 10px;
 }
 
-a:hover{
-    background: gray;
+a:hover {
+    background-color: #555;
 }
 
-.logout{
+.logout {
     position: absolute;
     bottom: 0;
 }
+

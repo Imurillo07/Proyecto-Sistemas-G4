@@ -32,7 +32,7 @@
     <input type="text" name="Password" placeholder="Contrasena">
     <hr>
     <button type="submit">Iniciar sesion</button>
-    <a href="index2.php">No tienes usuario? Crea uno.</a>
+    <a href="CrearUsuario.php">No tienes usuario? Crea uno.</a>
     </form>
 </body>
 </html>

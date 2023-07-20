@@ -44,7 +44,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="solprojefe.php">
                         <i class="fas fa-tasks"></i>
                         <span class="nav-item">Solicitudes en progreso</span>
                     </a>
@@ -63,7 +63,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     </a>
                 </li>
                 <li>
-                    <a href="solprojefe.php">
+                    <a href="#">
                         <i class="fas fa-money-bill"></i>
                         <span class="nav-item">Solicitudes en proceso de aprobación financiera</span>
                     </a>

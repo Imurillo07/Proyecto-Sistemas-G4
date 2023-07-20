@@ -13,7 +13,7 @@ body {
 }
 
 .container {
-    display: flexbox;
+    display: flex;
 }
 
 nav {
@@ -82,3 +82,46 @@ a:hover {
     bottom: 0;
 }
 
+
+/*Solicitudes*/
+
+.solictudes{
+    position: relative;
+    padding: 20px;
+    width: 100%;
+}
+
+.main-top{
+    display: flex;
+    width: 100px;
+}
+    
+
+label, input, textarea {
+    display: block;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+input[type="text"], input[type="email"], input[type="number"], textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}

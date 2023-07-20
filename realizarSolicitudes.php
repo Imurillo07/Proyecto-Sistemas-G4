@@ -44,7 +44,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     </a>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="solprojefe.php">
                         <i class="fas fa-tasks"></i>
                         <span class="nav-item">Solicitudes en progreso</span>
                     </a>
@@ -63,7 +63,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     </a>
                 </li>
                 <li>
-                    <a href="solprojefe.php">
+                    <a href="#">
                         <i class="fas fa-money-bill"></i>
                         <span class="nav-item">Solicitudes en proceso de aprobación financiera</span>
                     </a>
@@ -115,6 +115,36 @@ if ($row = mysqli_fetch_assoc($result)) {
             </ul>
         </nav>
         
+        <section class="solicitudes">
+            <div class="sol-top">
+                <form action="rsolicitud.php" method="POST">
+                    <label for="titulo">Título del producto:</label>
+                    <?php 
+                    if(isset($_GET['error'])){  
+                    ?>
+                    <p class="error">
+                    <?php 
+                    echo $_GET['error'];
+                    ?>
+                    </p>
+                    <?php
+                    }
+                    ?>
+                    <input type="text" id="titulo" name="titulo" required>
+
+                    <label for="descripcion">Descripción del producto:</label>
+                    <input id="descripcion" name="descripcion" rows="4" required></input>
+
+                    <label for="link">Enlace del producto:</label>
+                    <input type="text" id="link" name="link" required>
+
+                    <label for="precio">Precio del producto:</label>
+                    <input type="number" id="precio" name="precio" step="0.01" required>
+
+                    <input type="submit" value="Enviar">
+                </form>
+            </div>
+        </section>
     </div>
 </body>
 </html>

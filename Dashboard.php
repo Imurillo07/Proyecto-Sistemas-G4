@@ -31,7 +31,7 @@ if ($row = mysqli_fetch_assoc($result)) {
         <ul>
             <li>
                 <a href="#" class="logo">
-                    <img src="" alt="">
+                    <img src="logo.png" alt="">
                     <span class="nav-item">Goofy</span>
                 </a>
             </li>
@@ -80,7 +80,7 @@ if ($row = mysqli_fetch_assoc($result)) {
             </li>
             <?php elseif ($_SESSION['RolId'] == 3): ?>
             <li>
-                <a href="#" >
+                <a href="#" class="show-form" onclick="showForm('solicitudesRecibidasCont')">
                     <i class="fas fa-inbox"></i>
                     <span class="nav-item">Solicitudes entrantes</span>
                 </a>
@@ -92,13 +92,13 @@ if ($row = mysqli_fetch_assoc($result)) {
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="#" class="show-form" onclick="showForm('solicitudesAceptadas')">
                     <i class="fas fa-check-circle"></i>
                     <span class="nav-item">Solicitudes aceptadas</span>
                 </a>
             </li>
             <li>
-                <a href="#" >
+                <a href="#" class="show-form" onclick="showForm('solicitudesRechazadas')">
                     <i class="fas fa-times-circle"></i>
                     <span class="nav-item">Solicitudes rechazadas</span>
                 </a>
@@ -120,6 +120,7 @@ if ($row = mysqli_fetch_assoc($result)) {
         <form id="realizarSolicitudesForm" class="hidden-form" action="CrearSolicitud.php" method="post">
             <h2>Formulario Realizar Solicitudes</h2>
             <input type="text" name="titulo" placeholder="Título" required>
+            <input type="text" name="descripcion" placeholder="Descripción" required>
             <input type="text" name="link" placeholder="Link">
             <input type="number" step="0.01" name="precio" placeholder="Precio" required>
             <input type="submit" name="submit" value="Enviar">
@@ -133,6 +134,7 @@ if ($row = mysqli_fetch_assoc($result)) {
             <table>
                 <tr>
                     <th>Título</th>
+                    <th>Descripcion</th>
                     <th>Link</th>
                     <th>Precio</th>
                     <th>Estado</th>
@@ -147,16 +149,21 @@ if ($row = mysqli_fetch_assoc($result)) {
                 while ($solicitud = mysqli_fetch_assoc($result)) {
                     $id = $solicitud['id'];
                     $titulo = $solicitud['titulo'];
+                    $descripcion = $solicitud['descripcion'];
                     $link = $solicitud['link'];
                     $precio = $solicitud['precio'];
                     $estado = $solicitud['estado'];
+                    $razon = $solicitud['razon'];
 
                     echo "<tr>";
                     echo "<td>$titulo</td>";
+                    echo "<td>$descripcion</td>";
                     echo "<td>$link</td>";
                     echo "<td>$precio</td>";
                     echo "<td>$estado</td>";
                     echo "<td>";
+                    echo "<form method='post'>";
+                    echo "<input type='text' name='razon' placeholder='Razón del rechazo' value='$razon'>";
                     echo "<input type='hidden' name='solicitud_id' value='$id'>";
                     echo "<input type='submit' name='aprobar' value='Aprobar'>";
                     echo "<input type='submit' name='desaprobar' value='Desaprobar'>";
@@ -165,6 +172,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     echo "</tr>";
                 }
                 ?>
+                
             </table>
         </form>
     </div>
@@ -176,9 +184,11 @@ if ($row = mysqli_fetch_assoc($result)) {
             <table>
                 <tr>
                     <th>Título</th>
+                    <th>Descripcion</th>
                     <th>Link</th>
                     <th>Precio</th>
                     <th>Estado</th>
+                    <th>Razon</th>
                 </tr>
                 <?php
                 $query = "SELECT * FROM Solicitud WHERE estado = 3";
@@ -186,15 +196,19 @@ if ($row = mysqli_fetch_assoc($result)) {
 
                 while ($solicitud = mysqli_fetch_assoc($result)) {
                     $titulo = $solicitud['titulo'];
+                    $descripcion = $solicitud['descripcion'];
                     $link = $solicitud['link'];
                     $precio = $solicitud['precio'];
                     $estado = $solicitud['estado'];
+                    $razon = $solicitud['razon'];
 
                     echo "<tr>";
                     echo "<td>$titulo</td>";
+                    echo "<td>$descripcion</td>";
                     echo "<td>$link</td>";
                     echo "<td>$precio</td>";
                     echo "<td>$estado</td>";
+                    echo "<td>$razon</td>";
                     echo "</tr>";
                 }
                 ?>
@@ -202,6 +216,7 @@ if ($row = mysqli_fetch_assoc($result)) {
         </form>
     </div>
 
+     <!-- Formulario para ver solicitudes en proceso -->
     <div class="form-container">
     <form id="solicitudesPros" class="hidden-form">
             <h2>Solicitudes en Proceso</h2>
@@ -233,6 +248,133 @@ if ($row = mysqli_fetch_assoc($result)) {
             </table>
         </form>
     </div>
+    
+ <!-- Formulario para ver solicitudes recividas para el contador financiero -->
+    <div class="form-container">
+        <form id="solicitudesRecibidasCont" class="hidden-form" action="ProcesarSolicitudesFin.php" method="post">
+            <h2>Solicitudes Recibidas</h2>
+            <table>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripcion</th>
+                    <th>Link</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                <?php
+                include('Conexionbd.php');
+
+                $query = "SELECT * FROM Solicitud WHERE estado = 4";
+                $result = mysqli_query($condb, $query);
+
+                while ($solicitud = mysqli_fetch_assoc($result)) {
+                    $id = $solicitud['id'];
+                    $titulo = $solicitud['titulo'];
+                    $descripcion = $solicitud['descripcion'];
+                    $link = $solicitud['link'];
+                    $precio = $solicitud['precio'];
+                    $estado = $solicitud['estado'];
+                    $razon = $solicitud['razon'];
+
+                    echo "<tr>";
+                    echo "<td>$titulo</td>";
+                    echo "<td>$descripcion</td>";
+                    echo "<td>$link</td>";
+                    echo "<td>$precio</td>";
+                    echo "<td>$estado</td>";
+                    echo "<td>";
+                    echo "<form method='post'>";
+                    echo "<input type='text' name='razon' placeholder='Razón del rechazo o aceptacion' value='$razon'>";
+                    echo "<input type='hidden' name='solicitud_id' value='$id'>";
+                    echo "<input type='submit' name='aprobar' value='Aprobar'>";
+                    echo "<input type='submit' name='desaprobar' value='Desaprobar'>";
+                    echo "</form>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+                ?>
+                
+            </table>
+        </form>
+    </div>
+    <!-- Formulario para ver solicitudes Aceptadas -->
+    <div class="form-container">
+        <form id="solicitudesAceptadas" class="hidden-form">
+            <h2>Solicitudes Aceptadas</h2>
+            <table>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripcion</th>
+                    <th>Link</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Razon</th>
+                </tr>
+                <?php
+                $query = "SELECT * FROM Solicitud WHERE estado = 2";
+                $result = mysqli_query($condb, $query);
+
+                while ($solicitud = mysqli_fetch_assoc($result)) {
+                    $titulo = $solicitud['titulo'];
+                    $descripcion = $solicitud['descripcion'];
+                    $link = $solicitud['link'];
+                    $precio = $solicitud['precio'];
+                    $estado = $solicitud['estado'];
+                    $razon = $solicitud['razon'];
+
+                    echo "<tr>";
+                    echo "<td>$titulo</td>";
+                    echo "<td>$descripcion</td>";
+                    echo "<td>$link</td>";
+                    echo "<td>$precio</td>";
+                    echo "<td>$estado</td>";
+                    echo "<td>$razon</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table>
+        </form>
+    </div>
+    <!-- Formulario para ver solicitudes rechazadas -->
+    <div class="form-container">
+        <form id="solicitudesRechazadas" class="hidden-form">
+            <h2>Solicitudes Rechazadas</h2>
+            <table>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripcion</th>
+                    <th>Link</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Razon</th>
+                </tr>
+                <?php
+                $query = "SELECT * FROM Solicitud WHERE estado = 3";
+                $result = mysqli_query($condb, $query);
+
+                while ($solicitud = mysqli_fetch_assoc($result)) {
+                    $titulo = $solicitud['titulo'];
+                    $descripcion = $solicitud['descripcion'];
+                    $link = $solicitud['link'];
+                    $precio = $solicitud['precio'];
+                    $estado = $solicitud['estado'];
+                    $razon = $solicitud['razon'];
+
+                    echo "<tr>";
+                    echo "<td>$titulo</td>";
+                    echo "<td>$descripcion</td>";
+                    echo "<td>$link</td>";
+                    echo "<td>$precio</td>";
+                    echo "<td>$estado</td>";
+                    echo "<td>$razon</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table>
+        </form>
+    </div>
+
 </div>
 
 

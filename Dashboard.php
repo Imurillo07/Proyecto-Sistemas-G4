@@ -61,7 +61,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                     <span class="nav-item">Solicitudes recibidas</span>
                 </a>
             </li>
-                <a href="#">
+                <a href="#" class="show-form" onclick="showForm('solicitudesPros')" >
                     <i class="fas fa-money-bill"></i>
                     <span class="nav-item">Solicitudes en proceso de aprobación financiera</span>
                 </a>
@@ -182,6 +182,38 @@ if ($row = mysqli_fetch_assoc($result)) {
                 </tr>
                 <?php
                 $query = "SELECT * FROM Solicitud WHERE estado = 3";
+                $result = mysqli_query($condb, $query);
+
+                while ($solicitud = mysqli_fetch_assoc($result)) {
+                    $titulo = $solicitud['titulo'];
+                    $link = $solicitud['link'];
+                    $precio = $solicitud['precio'];
+                    $estado = $solicitud['estado'];
+
+                    echo "<tr>";
+                    echo "<td>$titulo</td>";
+                    echo "<td>$link</td>";
+                    echo "<td>$precio</td>";
+                    echo "<td>$estado</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </table>
+        </form>
+    </div>
+
+    <div class="form-container">
+    <form id="solicitudesPros" class="hidden-form">
+            <h2>Solicitudes en Proceso</h2>
+            <table>
+                <tr>
+                    <th>Título</th>
+                    <th>Link</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                </tr>
+                <?php
+                $query = "SELECT * FROM Solicitud WHERE estado = 4";
                 $result = mysqli_query($condb, $query);
 
                 while ($solicitud = mysqli_fetch_assoc($result)) {

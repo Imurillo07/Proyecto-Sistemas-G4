@@ -17,11 +17,6 @@ body {
 }
 
 nav {
-    position: relative;
-    top: 0;
-    bottom: 0;
-    height: 100vh;
-    left: 0;
     background-color: #245381;
     width: 280px;
     overflow: hidden;
@@ -49,7 +44,6 @@ nav {
 }
 
 a {
-    position: relative;
     color: #fff;
     font-size: 14px;
     display: table;
@@ -59,7 +53,6 @@ a {
 }
 
 nav .fas {
-    position: relative;
     width: 70px;
     height: 40px;
     top: 14px;
@@ -82,3 +75,63 @@ a:hover {
     bottom: 0;
 }
 
+/* Estilos para los formularios */
+.form-container {
+    position: fixed;
+    top: 0;
+    left: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    z-index: 999;
+}
+
+.forms-container form {
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 1000px;
+    width: 100%;
+    display: none;
+}
+
+.forms-container form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.forms-container form input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+.forms-container form table {
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.forms-container form th,
+.forms-container form td {
+    padding: 12px;
+    border-bottom: 1px solid #ccc;
+}
+
+.forms-container form th {
+    background-color: #f2f2f2;
+    text-align: left;
+}
+
+.forms-container form td {
+    text-align: right;
+}
+.form-container td form {
+    display: flex;
+    gap: 10px;
+}

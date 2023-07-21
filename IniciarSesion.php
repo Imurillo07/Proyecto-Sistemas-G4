@@ -43,4 +43,3 @@ if (isset($_POST['Usuario']) && isset($_POST['Password'])) {
     exit();
 }
 ?>
-

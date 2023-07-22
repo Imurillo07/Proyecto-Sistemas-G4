@@ -67,7 +67,7 @@ if ($row = mysqli_fetch_assoc($result)) {
                 </a>
             </li>
             <li>
-                <a href="#">
+            <a href="#" class="show-form" onclick="showForm('solicitudesAceptadas')">
                     <i class="fas fa-check-circle"></i>
                     <span class="nav-item">Solicitudes aprobadas</span>
                 </a>
@@ -80,15 +80,47 @@ if ($row = mysqli_fetch_assoc($result)) {
             </li>
             <?php elseif ($_SESSION['RolId'] == 3): ?>
             <li>
-                <a href="#" class="show-form" onclick="showForm('solicitudesRecibidasCont')">
+                <a href="#" class="show-form" onclick="showForm('solicitudesRecibidasCont1')">
                     <i class="fas fa-inbox"></i>
                     <span class="nav-item">Solicitudes entrantes</span>
                 </a>
             </li>
             <li>
-                <a href="#" >
-                    <i class="fas fa-file-alt"></i>
-                    <span class="nav-item">Reportes de solicitudes recibidas</span>
+                <a href="#" class="show-form" onclick="showForm('solicitudesAceptadas')">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="nav-item">Solicitudes aceptadas</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="show-form" onclick="showForm('solicitudesRechazadas')">
+                    <i class="fas fa-times-circle"></i>
+                    <span class="nav-item">Solicitudes rechazadas</span>
+                </a>
+            </li>
+            <?php elseif ($_SESSION['RolId'] == 4): ?>
+                <li>
+                <a href="#" class="show-form" onclick="showForm('solicitudesRecibidasCont2')">
+                    <i class="fas fa-inbox"></i>
+                    <span class="nav-item">Solicitudes entrantes</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="show-form" onclick="showForm('solicitudesAceptadas')">
+                    <i class="fas fa-check-circle"></i>
+                    <span class="nav-item">Solicitudes aceptadas</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="show-form" onclick="showForm('solicitudesRechazadas')">
+                    <i class="fas fa-times-circle"></i>
+                    <span class="nav-item">Solicitudes rechazadas</span>
+                </a>
+            </li>
+            <?php elseif ($_SESSION['RolId'] == 5): ?>
+                <li>
+                <a href="#" class="show-form" onclick="showForm('solicitudesRecibidasCont3')">
+                    <i class="fas fa-inbox"></i>
+                    <span class="nav-item">Solicitudes entrantes</span>
                 </a>
             </li>
             <li>
@@ -122,10 +154,11 @@ if ($row = mysqli_fetch_assoc($result)) {
             <input type="text" name="titulo" placeholder="Título" required>
             <input type="text" name="descripcion" placeholder="Descripción" required>
             <input type="text" name="link" placeholder="Link">
-            <input type="number" step="0.01" name="precio" placeholder="Precio" required>
+            <input type="text" pattern="[0-9]{1,7}" name="precio" placeholder="Precio deseado (hasta 7 dígitos)" required>
             <input type="submit" name="submit" value="Enviar">
         </form>
     </div>
+
 
     <!-- Formulario para procesar la solicitud -->
     <div class="form-container">
@@ -249,9 +282,9 @@ if ($row = mysqli_fetch_assoc($result)) {
         </form>
     </div>
     
- <!-- Formulario para ver solicitudes recividas para el contador financiero -->
+ <!-- Formulario para ver solicitudes recibidas para el contador financiero de nivel 1 -->
     <div class="form-container">
-        <form id="solicitudesRecibidasCont" class="hidden-form" action="ProcesarSolicitudesFin.php" method="post">
+        <form id="solicitudesRecibidasCont1" class="hidden-form" action="ProcesarSolicitudesFin.php" method="post">
             <h2>Solicitudes Recibidas</h2>
             <table>
                 <tr>
@@ -265,7 +298,106 @@ if ($row = mysqli_fetch_assoc($result)) {
                 <?php
                 include('Conexionbd.php');
 
-                $query = "SELECT * FROM Solicitud WHERE estado = 4";
+                $query = "SELECT * FROM Solicitud WHERE estado = 4 AND precio < 500000";
+
+                $result = mysqli_query($condb, $query);
+
+                while ($solicitud = mysqli_fetch_assoc($result)) {
+                    $id = $solicitud['id'];
+                    $titulo = $solicitud['titulo'];
+                    $descripcion = $solicitud['descripcion'];
+                    $link = $solicitud['link'];
+                    $precio = $solicitud['precio'];
+                    $estado = $solicitud['estado'];
+                    $razon = $solicitud['razon'];
+
+                    echo "<tr>";
+                    echo "<td>$titulo</td>";
+                    echo "<td>$descripcion</td>";
+                    echo "<td>$link</td>";
+                    echo "<td>$precio</td>";
+                    echo "<td>$estado</td>";
+                    echo "<td>";
+                    echo "<form method='post'>";
+                    echo "<input type='text' name='razon' placeholder='Razón del rechazo o aceptacion' value='$razon'>";
+                    echo "<input type='hidden' name='solicitud_id' value='$id'>";
+                    echo "<input type='submit' name='aprobar' value='Aprobar'>";
+                    echo "<input type='submit' name='desaprobar' value='Desaprobar'>";
+                    echo "</form>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+                ?>
+                
+            </table>
+        </form>
+    </div>
+     <!-- Formulario para ver solicitudes recibidas para el contador financiero de nivel 2 -->
+     <div class="form-container">
+        <form id="solicitudesRecibidasCont2" class="hidden-form" action="ProcesarSolicitudesFin.php" method="post">
+            <h2>Solicitudes Recibidas</h2>
+            <table>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripcion</th>
+                    <th>Link</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                <?php
+                include('Conexionbd.php');
+
+                $query = "SELECT * FROM Solicitud WHERE estado = 4 AND precio >= 500000 AND precio <= 999999";
+
+                $result = mysqli_query($condb, $query);
+
+                while ($solicitud = mysqli_fetch_assoc($result)) {
+                    $id = $solicitud['id'];
+                    $titulo = $solicitud['titulo'];
+                    $descripcion = $solicitud['descripcion'];
+                    $link = $solicitud['link'];
+                    $precio = $solicitud['precio'];
+                    $estado = $solicitud['estado'];
+                    $razon = $solicitud['razon'];
+
+                    echo "<tr>";
+                    echo "<td>$titulo</td>";
+                    echo "<td>$descripcion</td>";
+                    echo "<td>$link</td>";
+                    echo "<td>$precio</td>";
+                    echo "<td>$estado</td>";
+                    echo "<td>";
+                    echo "<form method='post'>";
+                    echo "<input type='text' name='razon' placeholder='Razón del rechazo o aceptacion' value='$razon'>";
+                    echo "<input type='hidden' name='solicitud_id' value='$id'>";
+                    echo "<input type='submit' name='aprobar' value='Aprobar'>";
+                    echo "<input type='submit' name='desaprobar' value='Desaprobar'>";
+                    echo "</form>";
+                    echo "</td>";
+                    echo "</tr>";
+                }
+                ?>
+                
+            </table>
+        </form>
+    </div>
+     <!-- Formulario para ver solicitudes recibidas para el contador financiero de nivel 3 -->
+     <div class="form-container">
+        <form id="solicitudesRecibidasCont3" class="hidden-form" action="ProcesarSolicitudesFin.php" method="post">
+            <h2>Solicitudes Recibidas</h2>
+            <table>
+                <tr>
+                    <th>Título</th>
+                    <th>Descripcion</th>
+                    <th>Link</th>
+                    <th>Precio</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+                <?php
+                include('Conexionbd.php');
+                $query = "SELECT * FROM Solicitud WHERE estado = 4 AND precio >= 1000000";
                 $result = mysqli_query($condb, $query);
 
                 while ($solicitud = mysqli_fetch_assoc($result)) {
@@ -376,7 +508,7 @@ if ($row = mysqli_fetch_assoc($result)) {
     </div>
 
 </div>
-
+<!--Scripts para esconder formularios y limitar espacio-->
 
     <script>
         function showForm(formId) {
@@ -387,6 +519,16 @@ if ($row = mysqli_fetch_assoc($result)) {
             document.getElementById(formId).style.display = 'block';
         }
     </script>
+
+
+<script>
+    const precioInput = document.querySelector('input[name="precio"]');
+    precioInput.addEventListener('input', function () {
+        this.value = this.value.replace(/\D/g, '').substring(0, 7);
+    });
+</script>
+
+
 </body>
 </html>
 

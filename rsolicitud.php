@@ -15,7 +15,7 @@ if (isset($_POST['titulo']) && isset($_POST['descripcion']) && isset($_POST['lin
     $descripcion = validate($_POST['descripcion']);
     $link = validate($_POST['link']);
     $precio = validate($_POST['precio']);
-    $estado = 1; // ID del rol que deseas asignar al usuario (puedes modificarlo según tus necesidades)
+    $estado = 1; 
 
     if (empty($titulo)) {
         header("Location: realizarSolicitudes.php?error=El titulo no puede estar vacío.");

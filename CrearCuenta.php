@@ -14,7 +14,7 @@ if (isset($_POST['Nombre_Completo']) && isset($_POST['Usuario']) && isset($_POST
     $Nombre_Completo = validate($_POST['Nombre_Completo']);
     $Usuario = validate($_POST['Usuario']);
     $Password = validate($_POST['Password']);
-    $RolId = 1; // ID del rol que deseas asignar al usuario (puedes modificarlo según tus necesidades)
+    $RolId = 1; 
 
     if (empty($Nombre_Completo)) {
         header("Location: CrearUsuario.php?error=El nombre completo no puede estar vacío.");
